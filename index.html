@@ -480,15 +480,16 @@
     const emptyMsg = document.getElementById('empty-msg');
     document.getElementById('queue-count').textContent = `Queue · ${queue.length} video${queue.length !== 1 ? 's' : ''}`;
 
+    list.querySelectorAll('.queue-item').forEach(el => el.remove());
+
     if (queue.length === 0) {
-      list.innerHTML = '';
-      list.appendChild(emptyMsg);
-      emptyMsg.style.display = 'block';
+      emptyMsg.style.display = '';
+      updateNavBtns();
       return;
     }
+
     emptyMsg.style.display = 'none';
 
-    list.innerHTML = '';
     queue.forEach((v, i) => {
       const item = document.createElement('div');
       item.className = 'queue-item' + (i === currentIndex ? ' active' : '');
@@ -504,6 +505,8 @@
       item.addEventListener('click', () => playVideo(i));
       list.appendChild(item);
     });
+
+    updateNavBtns();
   }
 
   function playVideo(index) {
